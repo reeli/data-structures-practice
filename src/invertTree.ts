@@ -25,14 +25,10 @@ function invertTree(root: TreeNode | null): TreeNode | null {
     return null;
   }
 
-  if (root.left || root.right) {
-    const temp = root.right;
+  const temp = root.right;
 
-    root.right = invertTree(root.left);
-    root.left = invertTree(temp);
-
-    return root;
-  }
+  root.right = invertTree(root.left);
+  root.left = invertTree(temp);
 
   return root;
 }
