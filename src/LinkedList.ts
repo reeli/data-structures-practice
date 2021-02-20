@@ -1,4 +1,4 @@
-// 1. 一种基于「节点」的数据结构。如果我们把内存想象成一个个格子，那么每个节点会占用中两个格子，一个用于存储 data，另一个用于存储下一个格子的内存地址。
+// 1. 一种基于「结点」的数据结构。如果我们把内存想象成一个个格子，那么每个结点会占用中两个格子，一个用于存储 data，另一个用于存储下一个格子的内存地址。
 
 class NodeElement {
   data: any;
@@ -39,7 +39,7 @@ class LinkedList {
     let currentIdx = 0;
     let prevNode = this.firstNode;
 
-    // 找到要待插入位置（index）的前一个节点
+    // 找到要待插入位置（index）的前一个结点
     while (currentIdx < index - 1) {
       prevNode = prevNode.nextNode;
       currentIdx += 1;
@@ -62,7 +62,7 @@ class LinkedList {
     let currentIdx = 0;
     let prevNode = this.firstNode;
 
-    // 找到要待插入位置（index）的前一个节点
+    // 找到要待插入位置（index）的前一个结点
     while (currentIdx < index - 1) {
       prevNode = prevNode.nextNode;
       currentIdx += 1;
