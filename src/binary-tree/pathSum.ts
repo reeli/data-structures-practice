@@ -1,19 +1,9 @@
 // #112 路径总和
 
-class TreeNode {
-  val: number;
-  left: TreeNode | null;
-  right: TreeNode | null;
-
-  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-    this.val = val;
-    this.left = left === undefined ? null : left;
-    this.right = right == undefined ? null : right;
-  }
-}
+import { TreeNode } from "./common/TreeNode";
 
 // 如果 root 的 left 和 right 结点都不存在时，去判断 val 和 sum 的差值是否为 0
-export const hasPathSum = (root: TreeNode, sum: number) => {
+export const hasPathSum = (root: TreeNode | null, sum: number): boolean => {
   if (!root) {
     return false;
   }
