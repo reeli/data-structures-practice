@@ -1,4 +1,4 @@
-// 654 最大二叉树
+// #654 最大二叉树
 
 class TreeNode {
   val: number;
@@ -12,12 +12,12 @@ class TreeNode {
   }
 }
 
-function constructMaximumBinaryTree(nums: number[]): TreeNode | null {
+function constructMaximumBinaryTree_654(nums: number[]): TreeNode | null {
   // 如果 nums 为空， 返回 null
   // 1. find max number
   // 2. 以这个数字创建一个 tree mode
-  // 3. treeNode.left = constructMaximumBinaryTree(leftArr)
-  // 4. treeNode.right = constructMaximumBinaryTree(rightArr)
+  // 3. treeNode.left = constructMaximumBinaryTree_654(leftArr)
+  // 4. treeNode.right = constructMaximumBinaryTree_654(rightArr)
 
   if (nums.length === 0) {
     return null;
@@ -31,12 +31,12 @@ function constructMaximumBinaryTree(nums: number[]): TreeNode | null {
 
   const rootNode = new TreeNode(maxNumber);
 
-  rootNode.left = constructMaximumBinaryTree(leftArr);
-  rootNode.right = constructMaximumBinaryTree(rightArr);
+  rootNode.left = constructMaximumBinaryTree_654(leftArr);
+  rootNode.right = constructMaximumBinaryTree_654(rightArr);
 
   return rootNode;
 }
 
 console.log(
-  JSON.stringify(constructMaximumBinaryTree([3, 2, 1, 6, 0, 5]), null, 2)
+  JSON.stringify(constructMaximumBinaryTree_654([3, 2, 1, 6, 0, 5]), null, 2)
 );

@@ -1,3 +1,5 @@
+// #226 翻转二叉树
+
 class TreeNode {
   data: any;
   left: any;
@@ -20,17 +22,17 @@ const node2 = new TreeNode(7, node2Left, node2Right);
 
 const root = new TreeNode(4, node1, node2);
 
-function invertTree(root: TreeNode | null): TreeNode | null {
+function invertTree_226(root: TreeNode | null): TreeNode | null {
   if (!root) {
     return null;
   }
 
   const temp = root.right;
 
-  root.right = invertTree(root.left);
-  root.left = invertTree(temp);
+  root.right = invertTree_226(root.left);
+  root.left = invertTree_226(temp);
 
   return root;
 }
 
-console.log(invertTree(root));
+console.log(invertTree_226(root));
