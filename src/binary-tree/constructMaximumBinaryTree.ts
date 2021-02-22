@@ -16,8 +16,8 @@ function constructMaximumBinaryTree(nums: number[]): TreeNode | null {
   // 如果 nums 为空， 返回 null
   // 1. find max number
   // 2. 以这个数字创建一个 tree mode
-  // 3. treeNode.left = constructMaximumBinaryTree_654(leftArr)
-  // 4. treeNode.right = constructMaximumBinaryTree_654(rightArr)
+  // 3. treeNode.left = constructMaximumBinaryTree(leftArr)
+  // 4. treeNode.right = constructMaximumBinaryTree(rightArr)
 
   if (nums.length === 0) {
     return null;

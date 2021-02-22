@@ -11,16 +11,6 @@ class TreeNode {
     this.right = right === undefined ? null : right;
   }
 }
-const node1Left = new TreeNode(1);
-const node1Right = new TreeNode(3);
-const node1 = new TreeNode(2, node1Left, node1Right);
-
-const node2Left = new TreeNode(6);
-const node2Right = new TreeNode(9);
-
-const node2 = new TreeNode(7, node2Left, node2Right);
-
-const root = new TreeNode(4, node1, node2);
 
 function invertTree(root: TreeNode | null): TreeNode | null {
   if (!root) {
@@ -34,5 +24,16 @@ function invertTree(root: TreeNode | null): TreeNode | null {
 
   return root;
 }
+
+const node1Left = new TreeNode(1);
+const node1Right = new TreeNode(3);
+const node1 = new TreeNode(2, node1Left, node1Right);
+
+const node2Left = new TreeNode(6);
+const node2Right = new TreeNode(9);
+
+const node2 = new TreeNode(7, node2Left, node2Right);
+
+const root = new TreeNode(4, node1, node2);
 
 console.log(invertTree(root));

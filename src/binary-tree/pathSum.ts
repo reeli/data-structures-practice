@@ -12,6 +12,7 @@ class TreeNode {
   }
 }
 
+// 如果 root 的 left 和 right 结点都不存在时，去判断 val 和 sum 的差值是否为 0
 export const hasPathSum = (root: TreeNode, sum: number) => {
   if (!root) {
     return false;
