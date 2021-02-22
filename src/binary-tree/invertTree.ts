@@ -1,12 +1,12 @@
 // #226 翻转二叉树
 
 class TreeNode {
-  data: any;
-  left: any;
-  right: any;
+  val: number;
+  left: TreeNode | null;
+  right: TreeNode | null;
 
-  constructor(data: number, left?: any, right?: any) {
-    this.data = data;
+  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+    this.val = val;
     this.left = left === undefined ? null : left;
     this.right = right === undefined ? null : right;
   }
