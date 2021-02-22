@@ -12,7 +12,7 @@ class TreeNode {
   }
 }
 
-function constructMaximumBinaryTree_654(nums: number[]): TreeNode | null {
+function constructMaximumBinaryTree(nums: number[]): TreeNode | null {
   // 如果 nums 为空， 返回 null
   // 1. find max number
   // 2. 以这个数字创建一个 tree mode
@@ -31,12 +31,12 @@ function constructMaximumBinaryTree_654(nums: number[]): TreeNode | null {
 
   const rootNode = new TreeNode(maxNumber);
 
-  rootNode.left = constructMaximumBinaryTree_654(leftArr);
-  rootNode.right = constructMaximumBinaryTree_654(rightArr);
+  rootNode.left = constructMaximumBinaryTree(leftArr);
+  rootNode.right = constructMaximumBinaryTree(rightArr);
 
   return rootNode;
 }
 
 console.log(
-  JSON.stringify(constructMaximumBinaryTree_654([3, 2, 1, 6, 0, 5]), null, 2)
+  JSON.stringify(constructMaximumBinaryTree([3, 2, 1, 6, 0, 5]), null, 2)
 );

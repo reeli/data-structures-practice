@@ -22,17 +22,17 @@ const node2 = new TreeNode(7, node2Left, node2Right);
 
 const root = new TreeNode(4, node1, node2);
 
-function invertTree_226(root: TreeNode | null): TreeNode | null {
+function invertTree(root: TreeNode | null): TreeNode | null {
   if (!root) {
     return null;
   }
 
   const temp = root.right;
 
-  root.right = invertTree_226(root.left);
-  root.left = invertTree_226(temp);
+  root.right = invertTree(root.left);
+  root.left = invertTree(temp);
 
   return root;
 }
 
-console.log(invertTree_226(root));
+console.log(invertTree(root));
