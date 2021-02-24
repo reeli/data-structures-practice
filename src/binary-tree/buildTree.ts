@@ -1,4 +1,5 @@
 // #105 从前序与中序遍历序列构造二叉树
+
 import { TreeNode } from "./common/TreeNode";
 
 /**
@@ -6,7 +7,7 @@ import { TreeNode } from "./common/TreeNode";
  * 中序遍历 inorder = [9,3,15,20,7]
  */
 
-// 前端遍历为：根结点 -> 左子结点 -> 右子结点
+// 前序遍历为：根结点 -> 左子结点 -> 右子结点
 // 中序遍历为：左子结点 -> 根结点 -> 右子结点
 
 // 从前序遍历的 list 中可以看出：第一个元素为 root 节点 (3)
@@ -23,27 +24,11 @@ function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
   const leftList = inorder.slice(0, rootIdx);
   const rightList = inorder.slice(rootIdx + 1);
 
-  const build = (preorderList: number[], inorderList: number[]) => {
-    const root = new TreeNode(preorderList[0]);
-    const rootIdx = inorderList.indexOf(preorderList[0]);
-    const leftList = inorderList.slice(0, rootIdx);
-    const rightList = inorderList.slice(rootIdx + 1);
-
-    if (leftList.length === 1) {
-      root.left = new TreeNode(leftList[0]);
-    }
-
-    if (rightList.length === 1) {
-      root.right = new TreeNode(rightList[0]);
-    }
-
-    return root;
-  };
-
   rootNode.left = buildTree(
     findMatchListInPreOrder(preorder, leftList),
     leftList
   );
+
   rootNode.right = buildTree(
     findMatchListInPreOrder(preorder, rightList),
     rightList
