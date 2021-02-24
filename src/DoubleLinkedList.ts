@@ -10,19 +10,6 @@ class NodeElement {
   }
 }
 
-const node1 = new NodeElement("node1");
-const node2 = new NodeElement("node2");
-const node3 = new NodeElement("node3");
-
-node1.prevNode = null;
-node1.nextNode = node2;
-
-node2.prevNode = node1;
-node2.nextNode = node3;
-
-node3.prevNode = node2;
-node3.nextNode = null;
-
 class DoubleLinkedList {
   firstNode: any;
   lastNode: any;
@@ -37,6 +24,23 @@ class DoubleLinkedList {
   removeFromFront() {}
 }
 
-const doubleLinkedList = new DoubleLinkedList(node1, node3);
+const bootstrap = () => {
+  const node1 = new NodeElement("node1");
+  const node2 = new NodeElement("node2");
+  const node3 = new NodeElement("node3");
 
-console.log(doubleLinkedList, "doubleLinkedList");
+  node1.prevNode = null;
+  node1.nextNode = node2;
+
+  node2.prevNode = node1;
+  node2.nextNode = node3;
+
+  node3.prevNode = node2;
+  node3.nextNode = null;
+
+  const doubleLinkedList = new DoubleLinkedList(node1, node3);
+
+  console.log(doubleLinkedList, "doubleLinkedList");
+};
+
+bootstrap();
