@@ -6,23 +6,6 @@
 //                      -> f(6 = 11 - max(coins))     +1
 //                      -> f(1 = 6 - max(coins)) +1
 //                      -> 1 + 1
-//
-//
-//
-//     amount=10  -> f(9) + 1
-//           amount=9   -> f(8) + 1
-//           amount=8   -> f(7) + 1
-//           amount=7   -> f(6) + 1   7-5, 2-2
-//           amount=6   -> f(5) + 1   6-5, 1-1 -> 2
-//           amount=5   -> f(4) + 1   5-5-> 0
-//           amount=4   -> f(3) + 1   4-2, 4-2 -> 2
-//           amount=3   -> f(2) + 1   3-2, 1-1  -> 2
-//           amount=2   -> 1  -> f(2)    2-2  -> 1
-
-// 初始值，不符合上面的公式
-//           amount=1   -> 1  -> 1=1
-//           amount=0   -> 0
-//           amount≤-1  -> -1
 
 // 1. 定义 f(n) 的含义：假设凑成总金额 n 所需要的最少硬币个数为 f(n)
 // 2. 找出子问题与原问题的关系，并得出关系式：f(n) = f(n-coin) (n>coin) 当 n==0 时，得到最后结果
@@ -32,7 +15,7 @@
 
 function coinChange(coins: number[], amount: number): number | never {
   // 求凑成总金额 n 所需要的硬币个数
-  function fn(n: number): number {
+  function fn(n: number): number | never {
     const maxCoin = Math.max(...coins);
     const remain = n - maxCoin;
 
