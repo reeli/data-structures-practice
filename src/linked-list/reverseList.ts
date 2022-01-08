@@ -1,3 +1,6 @@
+// 206. 反转链表
+// https://leetcode-cn.com/problems/reverse-linked-list/
+
 import {ListNode} from "./common/ListNode";
 
 // 1. reverseList 相当于遍历了每一个 list node 节点，自顶向下，逐层进入，直到终点
