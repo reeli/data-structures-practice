@@ -14,46 +14,46 @@
 // 因此，最终我们只需要计算有多少个 f(0)，即表示有多少种爬楼梯的方法
 
 function climbStairs(n: number): number {
-    const fn = (m: number, total: number = 0): number => {
-        if (m < 0) {
-            return total;
-        }
-
-        if (m === 0) {
-            return total + 1;
-        }
-
-        return fn(m - 1, total) + fn(m - 2, total)
+  const fn = (m: number, total: number = 0): number => {
+    if (m < 0) {
+      return total;
     }
 
-    return fn(n)
+    if (m === 0) {
+      return total + 1;
+    }
+
+    return fn(m - 1, total) + fn(m - 2, total)
+  }
+
+  return fn(n)
 }
 
 // console.log(climbStairs(8));
 
 function climbStairs1(n: number): number {
-    const cache: { [key: number]: number } = {};
+  const cache: { [key: number]: number } = {};
 
-    const fn = (m: number, total: number = 0): number => {
-        if (m < 0) {
-            return total;
-        }
-
-        if (m === 0) {
-            return total + 1;
-        }
-
-        if (cache[m]) {
-            return cache[m]
-        }
-
-        cache[m - 1] = fn(m - 1, total)
-        cache[m - 2] = fn(m - 2, total)
-
-        return cache[m - 1] + cache[m - 2];
+  const fn = (m: number): number => {
+    if (m < 0) {
+      return 0;
     }
 
-    return fn(n)
+    if (m == 0 || m == 1) {
+      return 1;
+    }
+
+    if (cache[m]) {
+      return cache[m]
+    }
+
+    cache[m - 1] = fn(m - 1)
+    cache[m - 2] = fn(m - 2)
+
+    return cache[m - 1] + cache[m - 2];
+  }
+
+  return fn(n)
 }
 
 console.log(climbStairs1(8));
