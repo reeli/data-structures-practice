@@ -1,56 +1,48 @@
 // #322 零钱兑换
 
-// 1. 找出子问题 2. 得出子问题与原问题的关系
-//
-// [1, 2, 5] amount=11  -> f(11)
-//                      -> f(6 = 11 - max(coins))     +1
-//                      -> f(1 = 6 - max(coins)) +1
-//                      -> 1 + 1
+// fn(i) = Min( fn(n - coin) ) + 1
 
-// 1. 定义 f(n) 的含义：假设凑成总金额 n 所需要的最少硬币个数为 f(n)
-// 2. 找出子问题与原问题的关系，并得出关系式：f(n) = f(n-coin) (n>coin) 当 n==0 时，得到最后结果
-// 3. 找出初始条件
+// 解题思路：遍历 coins，分别用 amount 和 每个 coin 做差，取最后结果里面的最小值（负数除外），
 
-// 11-1 11-2 11-5
+// 遍历 [1, 2, 5]，分别和 4 做差，得到 4-1=3, 4-2=2, 4-5=-1，结果：[3,2,-1]，最后过滤掉负数，取 [3,2] 的最小值（即为下一次需要去凑的 amount 值2），并且总数 +1 （找到一个）
+// 遍历 [1, 2, 5]，分别和 2 做差，得到 2-1=1, 2-2=0, 2-5=-3，结果：[1,0,-3]，最后过滤掉负数，取 [1,0] 的最小值 0（即为下一次需要去凑的 amount 值0）, 并且总数 +1 （找到一个）
+// f(0)=0
 
-function coinChange(coins: number[], amount: number): number | never {
-  // 求凑成总金额 n 所需要的硬币个数
-  function fn(n: number): number | never {
-    const maxCoin = Math.max(...coins);
-    const remain = n - maxCoin;
-
-    if (remain == 0) {
-      return 1;
+function coinChange(coins: number[], amount: number): number {
+  const map = new Map();
+  const fn = (i: number): number => {
+    if(i==0){
+      return 0
     }
 
-    if (remain > 0) {
-      return fn(remain) + 1;
+    if(i<0){
+      return -1;
     }
 
-    // 小于0，需要从遍历剩余的 coins，去查找是否能匹配面值为 n 的硬币，
-    // remainCoins.length==0 表示 coins 已经全部查找完毕，此时如果还没找到，则报错
-    // n - max(remainCoins) == 0 -> 找到, 则 +1
-    // n - max(remainCoins) >0  -> +1 继查找凑够剩余的钱所需要的硬币数量（跟前面的步骤类似），直到 remainCoins.length==0
-    // n - max(remainCoins) < 0 -> 从剩余的 coins 中去掉最大面额的硬币，继续查找，直到 remainCoins.length==0
+    const res: number[] = [];
 
-    let remainCoins = coins.filter((v) => v != maxCoin);
-
-    while (remainCoins.length > 0) {
-      const max = Math.max(...remainCoins);
-      if (n - max === 0) {
-        return 1;
+    coins.forEach(coin => {
+      const key = i -coin;
+      if(map.has(key)){
+        res.push(map.get(key))
+      }else{
+        map.set(key, fn(key))
+        res.push(fn(key))
       }
-      if (n - max > 0) {
-        return fn(n - max) + 1;
-      }
+    });
 
-      remainCoins = remainCoins.filter((v) => v !== max);
+    const list = res.filter(v=> v>=0);
+
+    if(list.length>0){
+      // min(f(4-1), f(4-2), f(3-1), f(3-2), f(2-1), f(1-1)) + 1
+      return Math.min(...list) + 1
     }
 
-    throw new Error("not match");
+    return -1;
   }
 
   return fn(amount);
 }
 
-console.log(coinChange([1, 2, 5], 11));
+coinChange([1, 2, 5], 4)
+coinChange([2], 3);
