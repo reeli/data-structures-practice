@@ -17,40 +17,33 @@
 
 
 function lengthOfLIS(nums: number[]): number {
-  const fn = (i: number) => {
-    if (i < 0) {
-      return 0;
+  const dp = new Array(nums.length);
+
+  //  1,  2,  3,  4
+  //  0,  1
+  //
+
+
+
+  // 0  [1]
+  // 1  [1,1]
+  for (let endIdx = 0; endIdx < nums.length; endIdx++) {
+    dp[endIdx] = 1;
+
+    // 0
+    for (let from = 0; from < endIdx; from++) {
+
+      // 2 > 1
+      if(nums[endIdx]>nums[from]){
+        dp[endIdx] = Math.max(dp[endIdx] /* dp[1] */, dp[from] /* dp[0] */ + 1)
+      }
     }
-
-    if (i == 0) {
-      return 1;
-    }
-
-    const res: number[] = [];
-    const others = nums.slice(0, i);
-
-    for (let j = others.length -1; j >= 0; j--) {
-
-      console.log(others,j, fn(j))
-
-
-      res.push(fn(j))
-    }
-
-    if (res.length > 0) {
-      const extra = (nums[i - 1] < nums[i] ? 1 : 0)
-      return Math.max(...res) + extra
-    }
-
-    return 0;
   }
 
-  //
-  return fn(nums.length - 1)
+  return Math.max(...dp)
 }
 
-
-console.log(lengthOfLIS([4,10,4,3,8,9]))
+console.log(lengthOfLIS([4, 10, 4, 3, 8, 9]))
 // [10,9,2,5,3,7,101, 18]
 
 // f(i) = max(f(i -1)) + (lastNum > arr[lastNum - 1] ? 1 : 0)
