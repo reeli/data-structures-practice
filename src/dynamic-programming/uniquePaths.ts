@@ -6,8 +6,46 @@
 // n=1  dp[1][i] = 1
 // const dp = [[1,2], [2,3]]
 
+// f(1, 1) 表示最终走回原点
+
 export function uniquePaths(m: number, n: number): number {
-  if (m < 0 || n < 0) {
-    return 0;
-  }
+  const fn = (y: number, x: number, total: number = 0): number => {
+    if (y == 1 && x == 1) {
+      return total + 1;
+    }
+    if (y <= 0 || x <= 0) {
+      return total;
+    }
+
+    return fn(y - 1, x, total) + fn(y, x - 1, total);
+  };
+
+  return fn(m, n);
 }
+
+// console.log(uniquePaths(3, 3))
+
+export function uniquePaths1(m: number, n: number): number {
+  const cache: { [key: string]: number } = {};
+
+  const fn = (y: number, x: number, total: number = 0): number => {
+    if (y == 1 && x == 1) {
+      return total + 1;
+    }
+    if (y <= 0 || x <= 0) {
+      return total;
+    }
+
+    const a1 = `${y - 1},${x}`;
+    const a2 = `${y},${x - 1}`;
+
+    cache[a1] = cache[a1] || fn(y - 1, x, total);
+    cache[a2] = cache[a2] || fn(y, x - 1, total);
+
+    return cache[a1] + cache[a2];
+  };
+
+  return fn(m, n, 0);
+}
+
+console.log(uniquePaths1(3, 3));
