@@ -1,9 +1,9 @@
 const axios = require("axios");
 
 async function getWinnerTotalGoals(competition, year) {
-  const getCompetitionWinnerApi = (params) => {
+  const getFoodOutlet = (params) => {
     return axios
-      .get(`https://jsonmock.hackerrank.com/api/football_competitions`, {
+      .get(`https://jsonmock.hackerrank.com/api/food_outlets`, {
         params,
       })
       .then((res) => {
