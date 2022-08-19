@@ -10,9 +10,19 @@ function renderInputValue(value) {
 function renderList(list) {
   $list.innerHTML = "";
 
-  list.forEach(value => {
+  list.forEach((value, idx) => {
     const $ele = document.createElement("li");
-    $ele.innerHTML = value
+    const $span = document.createElement("span");
+    $span.innerHTML = value
+
+    const $icon = document.createElement("span");
+    $icon.classList.add("delete")
+    $icon.innerHTML = "X";
+    $icon.setAttribute("id", `item-${idx}`)
+
+    $ele.appendChild($span)
+    $ele.appendChild($icon)
+
     $list.appendChild($ele)
   })
 }
@@ -49,8 +59,7 @@ const state = new Proxy(defaultState, {
     }
 
     return true
-  },
-  get: function (obj, prop) {
+  }, get: function (obj, prop) {
     return obj[prop]
   }
 })
@@ -63,26 +72,33 @@ function handleInputChange() {
   });
 }
 
-function compact(arr){
-  return arr.filter(v=> !!v);
+function compact(arr) {
+  return arr.filter(v => !!v);
 }
 
 function handleBtnClick() {
   $btn.addEventListener("click", () => {
     state.showErrorHint = !state.inputValue;
-
-    state.list = compact([
-      ...state.list,
-      state.inputValue
-    ]);
-
+    state.list = compact([...state.list, state.inputValue]);
     state.inputValue = ""
+  })
+}
+
+function handleListClick() {
+  $list.addEventListener("click", (evt) => {
+    const id = evt.target && evt.target.getAttribute("id");
+    if (id && id.startsWith("item")) {
+      // evt.target.parentElement.remove();
+      const num = id.split("-")
+      state.list = state.list.filter((_, idx) => idx !== Number(num[1]))
+    }
   })
 }
 
 function bootstrap() {
   handleInputChange();
   handleBtnClick()
+  handleListClick();
 }
 
 bootstrap()
