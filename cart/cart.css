@@ -1,0 +1,14 @@
+.product {
+    display: flex;
+    justify-content: space-around;
+    width: 500px
+}
+
+.product-name {
+    flex: 5
+}
+
+.product-count {
+    flex: 1;
+    color: red;
+}

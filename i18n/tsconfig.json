@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDirs": [
+      "src/locales/zh",
+      "src/locales/de",
+      "src/locales/#{locale}"
+    ],
+    "target": "esnext",
+    "module": "commonjs",
+    "forceConsistentCasingInFileNames": true
+  }
+}
