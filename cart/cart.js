@@ -10,42 +10,16 @@ const products = [
   }
 ]
 
-const createCart = () => {
-  const carts = {}
-
-  function getCarts() {
-    return Object.values(carts)
-  }
-
+const createRenderer = () => {
   return {
-    addProduct(productId) {
-      carts[productId] = {
-        productId, count: carts[productId] ? carts[productId].count + 1 : 1
-      }
+    renderProducts: (products, $renderTo) => {
+      products.forEach(product => {
+        const $product = document.createElement("li");
+        $product.innerHTML = `<div><span>${product.name}</span><button data-id="${product.id}">Add</button></div>`
+        $renderTo.appendChild($product);
+      })
     },
-    removeProduct(productId) {
-      carts[productId] = null
-    },
-    increase(productId, step = 1, max = 10) {
-      if (carts[productId]) {
-        const next = carts[productId].count + 1;
-        carts[productId] = {
-          productId,
-          count: next > max ? max : next
-        }
-      }
-    },
-    decrease(productId, step = 1, min = 1) {
-      if (carts[productId]) {
-        const next = carts[productId].count - 1;
-        carts[productId] = {
-          productId,
-          count: next < min ? min : next
-        }
-      }
-    },
-    renderCarts(products, $renderTo) {
-      const carts = getCarts();
+    renderCarts(carts, $renderTo, products) {
       $renderTo.innerHTML = carts.map(item => {
         if (!item) {
           return "";
@@ -65,32 +39,89 @@ const createCart = () => {
   }
 }
 
-const createProducts = () => {
-  return {
-    renderProducts: (products, $renderTo) => {
-      products.forEach(product => {
-        const $product = document.createElement("li");
-        $product.innerHTML = `<div><span>${product.name}</span><button data-id="${product.id}">Add</button></div>`
-        $renderTo.appendChild($product);
-      })
+const renderer = createRenderer();
+
+const state = new Proxy({
+  carts: {},
+  products
+}, {
+  set: function (obj, prop, value) {
+    obj[prop] = value;
+
+    if (prop === "carts") {
+      renderer.renderCarts(value.data, value.container, products)
     }
+
+    if(prop === "products"){
+      renderer.renderProducts(value.data, value.container)
+    }
+
+    return true;
+  },
+  get: function (obj, prop) {
+    return obj[prop]
+  }
+})
+
+const createCart = () => {
+  const carts = {}
+
+  function getCarts() {
+    return Object.values(carts)
+  }
+
+  return {
+    addProduct(productId) {
+      carts[productId] = {
+        productId, count: carts[productId] ? carts[productId].count + 1 : 1
+      }
+      return getCarts();
+    },
+    removeProduct(productId) {
+      carts[productId] = null
+      return getCarts();
+    },
+    increase(productId, step = 1, max = 10) {
+      if (carts[productId]) {
+        const next = carts[productId].count + 1;
+        carts[productId] = {
+          productId,
+          count: next > max ? max : next
+        }
+      }
+      return getCarts();
+    },
+    decrease(productId, step = 1, min = 1) {
+      if (carts[productId]) {
+        const next = carts[productId].count - 1;
+        carts[productId] = {
+          productId,
+          count: next < min ? min : next
+        }
+      }
+      return getCarts();
+    },
   }
 }
-
-const {renderProducts} = createProducts()
 
 function bootstrap() {
   const $products = document.getElementById("products");
   const $carts = document.getElementById("carts");
-  const {addProduct, renderCarts, removeProduct, increase, decrease} = createCart();
 
-  renderProducts(products, $products)
+  const {addProduct, removeProduct, increase, decrease} = createCart();
+
+  state.products = {
+    data: products,
+    container: $products
+  }
 
   $products.addEventListener("click", (evt) => {
     const productId = evt.target.getAttribute("data-id");
     if (productId) {
-      addProduct(productId)
-      renderCarts(products, $carts)
+      state.carts = {
+        data: addProduct(productId),
+        container: $carts
+      }
     }
   })
 
@@ -103,20 +134,25 @@ function bootstrap() {
 
     const eventType = evt.target.getAttribute("data-eventType")
 
-
     if (eventType === "remove") {
-      removeProduct(productId)
-      renderCarts(products, $carts)
+      state.carts = {
+        data: removeProduct(productId),
+        container: $carts
+      }
     }
 
     if (eventType === "increase") {
-      increase(productId)
-      renderCarts(products, $carts)
+      state.carts = {
+        data: increase(productId),
+        container: $carts
+      }
     }
 
     if (eventType === "decrease") {
-      decrease(productId)
-      renderCarts(products, $carts)
+      state.carts = {
+        data: decrease(productId),
+        container: $carts
+      }
     }
   })
 }
