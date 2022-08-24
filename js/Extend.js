@@ -15,7 +15,7 @@ Activity.prototype.getAmount = function () {
 }
 
 function Payment(amount, receiver) {
-  Activity.call(this)
+  Activity.call(this) //  call super constructor
   this.amount = amount;
   this.receiver = receiver;
 }
@@ -31,7 +31,7 @@ Refund.prototype.constructor = Refund;
 
 // 如果先给 Payment.prototype 赋值（36行），再继承（33行），会导致调用 Payment.getReceiver 方法时，找不到该方法，因为继承时将 Payment.prototype 给覆写了
 Payment.prototype = Object.create(Activity.prototype)
-Payment.prototype.constructor = Payment;
+Payment.prototype.constructor = Payment; // 如果不将 Payment.prototype.constructor 的值设置为 Payment，那么它将会采用 parent（也就是 Activity） 的 prototype.constructor
 
 Payment.prototype.setReceiver = function (receiver) {
   this.receiver = receiver
